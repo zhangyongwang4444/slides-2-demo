@@ -1,58 +1,63 @@
-let n 
+let n
 初始化()
 
-setInterval(function() {
+let timer = setInterval(function() {
 	makeLeave(getImage(n))
-	.one('transitionend',function(e){
-		makeEnter($(e.currentTarget))
-	})
-	makeCurrent(getImage(n+1))
+		.one('transitionend', function(e) {
+			makeEnter($(e.currentTarget))
+		})
+	makeCurrent(getImage(n + 1))
 	n += 1
-}, 3000);
+}, 2000);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+document.addEventListener('visibilitychange', function() {
+	// console.log(document.hidden);
+	if (document.hidden) {
+		window.clearInterval(timer);
+	} else {
+		timer = setInterval(function() {
+			makeLeave(getImage(n))
+				.one('transitionend', function(e) {
+					makeEnter($(e.currentTarget))
+				})
+			makeCurrent(getImage(n + 1))
+			n += 1
+		}, 2000);
+	}
+})
 
 
 
 //封装了一些函数
 
-function getImage(n){
+function getImage(n) {
 	return $(`.images > img:nth-child(${x(n)})`)
 }
-function x(n){
-	if(n>3){
-		n = n%3
-		if(n===0){
-			n = 3 
+
+function x(n) {
+	if (n > 3) {
+		n = n % 3
+		if (n === 0) {
+			n = 3
 		}
 	} // n = 1 2 3 
 	return n
 }
 
-function 初始化(){
+function 初始化() {
 	n = 1
 	$(`.images > img:nth-child(${n})`).addClass('current')
-	.siblings().addClass('enter')
+		.siblings().addClass('enter')
 }
 
-function makeCurrent($node){
+function makeCurrent($node) {
 	return $node.removeClass('enter leave').addClass('current')
 }
-function makeLeave($node){
+
+function makeLeave($node) {
 	return $node.removeClass('enter current').addClass('leave')
 }
-function makeEnter($node){
+
+function makeEnter($node) {
 	return $node.removeClass('leave current').addClass('enter')
 }
