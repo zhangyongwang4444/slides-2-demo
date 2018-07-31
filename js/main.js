@@ -25,7 +25,12 @@ function bindEvents() {
 	$('#buttonWrapper').on('click', 'button', function(e) {
 		let $button = $(e.currentTarget)
 		let index = $button.index()
-		if (current === $buttons.length - 1 && index === 0) {
+		goToSlide(index)
+	})
+}
+
+function goToSlide(index){
+	if (current === $buttons.length - 1 && index === 0) {
 			console.log(1)
 			//从最后一张到第一张
 			$slides.css({transform: `translateX(${-($buttons.length + 1) * 400 }px)`})
@@ -48,6 +53,4 @@ function bindEvents() {
 			$slides.css({transform: `translateX(${- ( index + 1 ) * 400 }px)`})
 		}
 		current = index 
-	})
 }
-
